@@ -1,9 +1,34 @@
-import React, { FC } from "react";
+import React, { ElementType } from "react";
 
-export interface MyComponentProps {
-  label: string;
+export interface CronSelectProps<
+  SelectProps = Record<string, any>,
+  OptionProps = Record<string, any>
+> {
+  className?: string;
+  Select?: ElementType;
+  Option?: ElementType;
+  selectProps?: SelectProps;
+  optionProps?: OptionProps;
 }
 
-export const MyComponent: FC<MyComponentProps> = ({ label }) => {
-  return <div>{label}</div>;
+export const CronSelect = <SelectProps, OptionProps>({
+  className = "react-cron-select",
+  Select = "select",
+  Option = "option",
+  selectProps,
+  optionProps,
+}: CronSelectProps<SelectProps, OptionProps>) => {
+  const periods = ["year", "month", "week", "day", "hour", "minute"];
+
+  return (
+    <div className={className}>
+      <Select {...selectProps} defaultValue={periods[0]}>
+        {periods.map((period) => (
+          <Option {...optionProps} value={period}>
+            {period}
+          </Option>
+        ))}
+      </Select>
+    </div>
+  );
 };
