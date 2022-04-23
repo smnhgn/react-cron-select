@@ -1,0 +1,31 @@
+{
+  "name": "lib",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "concurrently -n types,code 'tsc --watch --preserveWatchOutput' 'vite build --watch --mode development'",
+    "build": "vite build && tsc"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "concurrently": "^7.1.0",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.5"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n lib,app 'npm:dev -w lib' 'npm:dev -w app'",
+    "build": "npm run build -w lib"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0"
+  }
+}
