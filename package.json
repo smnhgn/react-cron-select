@@ -6,9 +6,11 @@
   ],
   "scripts": {
     "dev": "concurrently -n lib,app 'npm:dev -w react-cron-select' 'npm:dev -w react-cron-select-demo'",
-    "build": "npm run build -w lib"
+    "build": "npm run build -w lib",
+    "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "concurrently": "^7.1.0",
+    "prettier": "^2.6.2"
   }
 }
