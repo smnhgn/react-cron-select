@@ -8,7 +8,7 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: mode === "development" ? false : true,
       lib: {
         entry: path.resolve(__dirname, "src/index.tsx"),
-        name: "MyLib",
+        name: "ReactCronSelect",
         fileName: (format) => `index.${format}.js`,
       },
       rollupOptions: {

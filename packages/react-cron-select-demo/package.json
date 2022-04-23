@@ -1,5 +1,6 @@
 {
-  "name": "app",
+  "name": "react-cron-select-demo",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

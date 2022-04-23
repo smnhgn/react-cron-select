@@ -1,5 +1,5 @@
 import React from "react";
-import { MyComponent } from "lib";
+import { MyComponent } from "react-cron-select";
 
 function App() {
   return (

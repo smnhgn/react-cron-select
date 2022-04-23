@@ -1,9 +1,11 @@
 {
+  "name": "react-cron-select-workspace",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently -n lib,app 'npm:dev -w lib' 'npm:dev -w app'",
+    "dev": "concurrently -n lib,app 'npm:dev -w react-cron-select' 'npm:dev -w react-cron-select-demo'",
     "build": "npm run build -w lib"
   },
   "devDependencies": {
