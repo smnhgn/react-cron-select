@@ -10,12 +10,16 @@ import ToggleButton from "@mui/material/ToggleButton";
 
 const DEFAULT_INTERVAL = parseExpression("* * * * * *");
 
+const PERIODS: CronField[] = ["month", "dayOfMonth", "dayOfWeek", "hour", "minute", "second"];
+
+const DEFAULT_PERIOD: CronField = "month";
+
 type CronField = keyof CronFields;
 
 export interface CronSelectProps {}
 
 export const CronSelect = ({}: CronSelectProps) => {
-  const [period, setPeriod] = useState<CronField>("month");
+  const [period, setPeriod] = useState<CronField>(DEFAULT_PERIOD);
   const [fields, setFields] = useState<CronFields>(DEFAULT_INTERVAL.fields);
   const [expression, setExpression] = useState<string>(DEFAULT_INTERVAL.stringify(true));
   const [error, setError] = useState<Error | null>();
@@ -28,6 +32,7 @@ export const CronSelect = ({}: CronSelectProps) => {
   };
 
   const handleClose = () => {
+    setPeriod(DEFAULT_PERIOD);
     setAnchorEl(null);
   };
 
@@ -35,12 +40,12 @@ export const CronSelect = ({}: CronSelectProps) => {
     setPeriod(newValue);
   };
 
-  const handleChangeMonth = (e: SyntheticEvent<any>, newValue: CronFields["month"]) => {
-    setFields({ ...fields, month: newValue });
-  };
+  const handleChangeField = (cronField: CronField) => {
+    const defaultValue = DEFAULT_INTERVAL.fields[cronField];
 
-  const handleChangeDayOfMonth = (e: SyntheticEvent<any>, newValue: CronFields["dayOfMonth"]) => {
-    setFields({ ...fields, dayOfMonth: newValue });
+    return (e: SyntheticEvent<any>, newValue: CronFields[typeof cronField]) => {
+      setFields({ ...fields, [cronField]: newValue.length === 0 ? defaultValue : newValue });
+    };
   };
 
   useEffect(() => {
@@ -66,33 +71,27 @@ export const CronSelect = ({}: CronSelectProps) => {
       >
         <Box>
           <Tabs value={period} onChange={handleChangePeriod}>
-            <Tab value="month" label="month" />
-            <Tab value="dayOfMonth" label="month" />
-            <Tab value="dayOfWeek" label="dayOfWeek" />
-            <Tab value="hour" label="hour" />
-            <Tab value="minute" label="minute" />
-            <Tab value="second" label="second" />
+            {PERIODS.map((p) => (
+              <Tab key={p} value={p} label={p} />
+            ))}
           </Tabs>
 
-          {period === "month" && (
-            <ToggleButtonGroup value={fields.month} onChange={handleChangeMonth}>
-              {DEFAULT_INTERVAL.fields.month.map((monthValue) => (
-                <ToggleButton key={monthValue} value={monthValue}>
-                  {monthValue}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          )}
-
-          {period === "dayOfMonth" && (
-            <ToggleButtonGroup value={fields.dayOfMonth} onChange={handleChangeDayOfMonth}>
-              {DEFAULT_INTERVAL.fields.dayOfMonth.map((dayOfMonthValue) => (
-                <ToggleButton key={dayOfMonthValue} value={dayOfMonthValue}>
-                  {dayOfMonthValue}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          )}
+          <ToggleButtonGroup
+            value={
+              fields[period].length === DEFAULT_INTERVAL.fields[period].length ? [] : fields[period]
+            }
+            onChange={handleChangeField(period)}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: `repeat(6, 1fr)`,
+            }}
+          >
+            {DEFAULT_INTERVAL.fields[period].map((value) => (
+              <ToggleButton key={value} value={value}>
+                {value}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
         </Box>
       </Popover>
     </Box>
